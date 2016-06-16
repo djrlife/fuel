@@ -9,11 +9,11 @@ package ca.djr.fuel;
  *
  * @author derek
  */
-public class Fueling {
-    private DoubleValue cost;
-    private DoubleValue price;
-    private DoubleValue volume;
-    private long odometer;
+public final class Fueling {
+    final private DoubleValue cost = new DoubleValue();
+    final private DoubleValue price = new DoubleValue();
+    final private DoubleValue volume = new DoubleValue();
+    private long odometer = 0;
 
     /**
      * @return the cost
@@ -25,7 +25,7 @@ public class Fueling {
     /**
      * @param cost the cost to set
      */
-    public void setTotalCost(double cost) {
+    public void setCost(double cost) {
         this.cost.setValue(cost);
         resolve();
     }
@@ -68,7 +68,7 @@ public class Fueling {
             price.setValue(cost.getValue() / volume.getValue());
         }
         else if(price.isSet() && volume.isSet()) {
-            cost.setValue(volume.getValue() * cost.getValue());
+            cost.setValue(price.getValue() * volume.getValue());
         }
     }
     

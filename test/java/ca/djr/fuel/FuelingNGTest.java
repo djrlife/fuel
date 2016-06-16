@@ -40,15 +40,12 @@ public class FuelingNGTest {
     /**
      * Test of getCost method, of class Fueling.
      */
-    @Test
-    public void testGetCost() {
+    @Test(expectedExceptions = DoubleValue.ValueUnsetException.class)
+    public void testGetCostUnset() {
         System.out.println("getCost");
         Fueling instance = new Fueling();
-        DoubleValue expResult = null;
-        DoubleValue result = instance.getCost();
-        assertEquals(result, expResult);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        instance.getCost().getValue();
+        fail();
     }
 
     /**
@@ -57,25 +54,22 @@ public class FuelingNGTest {
     @Test
     public void testSetTotalCost() {
         System.out.println("setTotalCost");
-        double cost = 0.0;
+        double cost = 123.45;
         Fueling instance = new Fueling();
-        instance.setTotalCost(cost);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        instance.setCost(cost);
+        double result = instance.getCost().getValue();
+        assertEquals(cost, result);
     }
 
     /**
      * Test of getPrice method, of class Fueling.
      */
-    @Test
-    public void testGetPrice() {
+    @Test(expectedExceptions = DoubleValue.ValueUnsetException.class)
+    public void testGetPriceUnset() {
         System.out.println("getPrice");
         Fueling instance = new Fueling();
-        DoubleValue expResult = null;
-        DoubleValue result = instance.getPrice();
-        assertEquals(result, expResult);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        instance.getPrice().getValue();
+        fail();
     }
 
     /**
@@ -84,25 +78,22 @@ public class FuelingNGTest {
     @Test
     public void testSetPrice() {
         System.out.println("setPrice");
-        double price = 0.0;
+        double price = 234.56;
         Fueling instance = new Fueling();
         instance.setPrice(price);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        double result = instance.getPrice().getValue();
+        assertEquals(price, result);
     }
 
     /**
      * Test of getVolume method, of class Fueling.
      */
-    @Test
-    public void testGetVolume() {
+    @Test(expectedExceptions = DoubleValue.ValueUnsetException.class)
+    public void testGetVolumeUnset() {
         System.out.println("getVolume");
         Fueling instance = new Fueling();
-        DoubleValue expResult = null;
-        DoubleValue result = instance.getVolume();
-        assertEquals(result, expResult);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        instance.getVolume().getValue();
+        fail();
     }
 
     /**
@@ -111,26 +102,70 @@ public class FuelingNGTest {
     @Test
     public void testSetVolume() {
         System.out.println("setVolume");
-        double volume = 0.0;
+        double volume = 345.67;
         Fueling instance = new Fueling();
         instance.setVolume(volume);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        double result = instance.getVolume().getValue();
+        assertEquals(volume, result);
     }
 
     /**
      * Test of resolved method, of class Fueling.
      */
     @Test
-    public void testResolved() {
-        System.out.println("resolved");
+    public void testResolvedCostPrice() {
+        System.out.println("resolvedCostPrice");
         Fueling instance = new Fueling();
-        boolean expResult = false;
+        double cost = 10.0;
+        double price = 1.019;
+        instance.setCost(cost);
+        instance.setPrice(price);
         boolean result = instance.resolved();
-        assertEquals(result, expResult);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(result, true);
+        
+        double expectedVolume = cost / price;
+        double volume = instance.getVolume().getValue();
+        assertEquals(volume,expectedVolume);
     }
+    
+    /**
+     * Test of resolved method, of class Fueling.
+     */
+    @Test
+    public void testResolvedPriceVolume() {
+        System.out.println("resolvedPriceVolume");
+        Fueling instance = new Fueling();
+        double price = .985;
+        double volume = 20.2;
+        instance.setPrice(price);
+        instance.setVolume(volume);
+        boolean result = instance.resolved();
+        assertEquals(result, true);
+        
+        double expectedCost = price * volume;
+        double cost = instance.getCost().getValue();
+        assertEquals(cost,expectedCost);
+    }
+
+    /**
+     * Test of resolved method, of class Fueling.
+     */
+    @Test
+    public void testResolvedCostVolume() {
+        System.out.println("resolvedCostVolume");
+        Fueling instance = new Fueling();
+        double cost = 30.5;
+        double volume = 28.32;
+        instance.setCost(cost);
+        instance.setVolume(volume);
+        boolean result = instance.resolved();
+        assertEquals(result, true);
+        
+        double expectedPrice = cost / volume;
+        double price = instance.getPrice().getValue();
+        assertEquals(price,expectedPrice);
+    }
+
 
         
 }
